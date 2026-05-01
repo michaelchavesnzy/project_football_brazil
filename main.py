@@ -15,9 +15,12 @@ if __name__ == "__main__":
     st.title("Tabela do Brasileirão")
     st.dataframe(df_classificacao)
 
-    
+    st.image(df_classificacao.loc[df_classificacao['posicao'] == 1]['link_escudo'].iloc[0], caption="Primeiro colocado do campeonato")
+
 
     
+
+
 
 
 
