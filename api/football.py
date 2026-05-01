@@ -1,11 +1,12 @@
 import requests
-from config.settings import FOOTBALL_API_URL, FOOTBALL_API_TOKEN
+import os
+#from config.settings import FOOTBALL_API_URL, FOOTBALL_API_TOKEN
 
 class FootballApi:
 
     def __init__(self):
-        self.base_url = FOOTBALL_API_URL
-        self.headers = {"X-Auth-Token": FOOTBALL_API_TOKEN}
+        self.base_url = os.getenv("FOOTBALL_API_URL")
+        self.headers = {"X-Auth-Token": os.getenv("FOOTBALL_API_TOKEN")}
 
     def api_request(self, endpoint):
         
@@ -28,6 +29,6 @@ class FootballApi:
     
     def get_matches(self):
 
-        return self.api_request("ompetitions/BSA/matches")
+        return self.api_request("competitions/BSA/matches")
 
     

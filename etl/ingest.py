@@ -1,10 +1,11 @@
 from api.football import FootballApi
-from config.settings import DATABASE_URL
+#from config.settings import DATABASE_URL
 from etl import transform
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 from database.connection import Base
 from database.models import Standings
+import os
 
 def run_ingest():
 
@@ -12,7 +13,7 @@ def run_ingest():
     json_classificacao = api.get_standings()
     df_classificacao = transform.transform_standings(json_classificacao)
 
-    engine = create_engine(DATABASE_URL, echo=True)
+    engine = create_engine(os.getenv("DATABASE_URL"), echo=True)
     Session = sessionmaker(bind=engine)
 
     Base.metadata.drop_all(engine)
@@ -40,9 +41,9 @@ def run_ingest():
         session.add_all(objects)
         session.commit()
 
-    #df_classificacao.to_sql(name='tb_classificacao', con=engine, if_exists='replace', index=False)
-
     print("ETL completo: tabelas populadas no banco!")
+
+    return df_classificacao
 
 
 
